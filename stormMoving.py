@@ -1,3 +1,30 @@
+'''
+Everything starts with the GUI at the bottom. Intended use is that you type in a number from 1-60 in the first entry box of the gui, as 
+well as the name of a currently streaming Twitch streamer in the next box. Then you click the button 'Open Stream', which will go to the twitch stream
+of your choice using a selenium browser. Immediately after, you'll want to click the button 'Detect Storm'. 
+
+At this point, the app will be screenshotting a particular region on the stream every second and passing the screenshot through the very impressive
+and much appreciated pytesseract module, which attempts to convert the contents of an image into text. This result, often an empty string but sometimes
+the timer on the screen as a string object, is passed into the 'process' function which, if the string variable fits the criteria, will use the 
+setTimer function in order to tell the app to speak just before the storm moves. 
+
+Notes:
+
+This is a joke app, so it's not exactly intuitive. On startup, you should enter a time interval and make sure you create the sound file. Otherwise, the app 
+will set the clock but there will be no sound file to play. If you set the time interval to, say, 40 seconds, but you've only created sound files for 
+10, 20, and 30 seconds, then the timer will attempt to read and speak the sound file 40 seconds before the storm moves but will not find any sound file. 
+
+Also, there are two SCREENSHOT_REGION global variables. The second SCREENSHOT_REGION works on a regular stream from a ps4 in 720p that is being read in 
+full screen on my laptop, but on your laptop, and for the streamer you want to warn about the gas, the pixel values are likely slightly different. For this
+reason, I've included the 'Coordinates' button, which will print to terminal the current cursor location. You can use these coordinates, plus the pyautogui
+documentation for the screenshot_region function in order to set new pixel values for SCREENSHOT_REGION. I've found the SCREENSHOT_REGION I commented out
+works from some big streamers.
+
+One last note. This app can be improved quite a bit. The controls are not intuitive. The functionality is limited. I just think selenium and pyautgui, 
+plus pytesseract gTTS are some really powerful tools and I wanted some practice. Theoretically, one might use this kind of app to read all kinds of 
+information out loud. You could set it to say happy birthday when the clock on your computer hits a certain value.
+'''
+
 import pyautogui
 import pytesseract
 import selenium
@@ -7,7 +34,6 @@ from gtts import gTTS
 import os 
 from tkinter import *
 import datetime
-
 
 CLOCK_NEEDS_SET = True
 WARNING_TIME = 10
@@ -19,7 +45,6 @@ def createSoundFile(time_str):
 	myobj = gTTS(text=text_str, lang='en', slow=False) 
 	myobj.save("stormMoving" + time_str + ".mp3")
 	print('Saved sound file') 
-
 
 def setClock(result,time_elapsed):
 	global CLOCK_NEEDS_SET
@@ -64,7 +89,6 @@ def openStream(streamer):
 	driver.get(url)
 	time.sleep(5)
 	pyautogui.click(x=1933, y=1336)
-
 
 #SCREENSHOT_REGION = (160,680,185,68)
 SCREENSHOT_REGION = (186,693,219,63)
@@ -113,13 +137,10 @@ def clearCanvas():
 	CANVAS = Canvas(APP)
 	CANVAS.pack()
 	
-	
-	
 def main():
 	while True:
 		stormDetect()
-		
-
+	
 global CANVAS
 global APP
 APP = Tk()
@@ -134,48 +155,4 @@ APP.mainloop()
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
