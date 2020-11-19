@@ -17,6 +17,40 @@ SCREENSHOT_REGION = (159,677,350,350) #This is a default screenshot region. Inte
 CLOCK_NEEDS_SET = True #This will pause the screenshotting whenever a result is found
 WARNING_TIME = 10 #This is the default warning time
 CLOCK_PIXELS = ['na','na'] #This is just a placeholder, and will be used when you set the screenshot region
+RESULT_CACHE = ''
+
+def customSoundFile(text_str): 
+	myobj = gTTS(text=text_str, lang='en', slow=False) #here you create a sound file to be played whenever the player count changes
+	myobj.save("customSound.mp3")
+	
+#customSoundFile('Player died') #this should be in the GUI, but really, its just a test. You run this line and create a sound file
+	
+def checkInt(int_str):
+	try:
+		x = int(int_str)
+		return True #this returns True if a result is an integer
+	except:
+		return False
+		
+def playerCountDetect(flag):
+	while True:
+		playerCountDetectProcess() #loops playerCountDetectProcess(), can be altered to stop the process
+	
+def playerCountDetectProcess():
+	global RESULT_CACHE
+	im = pyautogui.screenshot(region=SCREENSHOT_REGION) #so, first, you should set the region to be the few pixels that show player count
+	result = pytesseract.image_to_string(im) #then that screenshot is turned into text
+	if checkInt(result): #now check if the text from the screenshot is an integer
+		if RESULT_CACHE != '': #now check if its not the first integer result found
+			if result != RESULT_CACHE: #now check if the integer result is different from the previous integer result we stored
+				os.system("mpg321 customSound.mp3") #if the integer results differ, we play an alert
+				RESULT_CACHE = result #and cache the new new result
+				print('updated result cache')
+		elif RESULT_CACHE == '': #else, if we have an empty cache
+			RESULT_CACHE = result #no checks are needed and no sound file will be played, we just cache our integer result
+			print('first result cached')
+	else:
+		print('Result not a number') #this is what happens when the text isnt recognized properly
 
 def createSoundFile(time_str):
 	text_str = time_str + " seconds until the circle moves"
@@ -162,6 +196,8 @@ def homeReset():
 	extra_btn.pack()
 	last_btn = Button(CANVAS, text='Set Region', command= lambda :setRegion(streamer.get()))
 	last_btn.pack()
+	one_more_btn = Button(CANVAS,text='Detect Count',command=lambda:playerCountDetect(streamer.get())) #this goes to an experimental feature
+	one_more_btn.pack() #in this feature, the idea is to screenshot in the top right and keep track of player count for various reasons
 	
 def clearCanvas():
 	global CANVAS
