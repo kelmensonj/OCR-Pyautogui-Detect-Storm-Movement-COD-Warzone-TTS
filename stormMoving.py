@@ -16,6 +16,40 @@ from pynput.keyboard import Key, Listener
 CLOCK_NEEDS_SET = True
 WARNING_TIME = 10
 CLOCK_PIXELS = ['na','na']
+RESULT_CACHE = ''
+
+def customSoundFile(text_str): 
+	myobj = gTTS(text=text_str, lang='en', slow=False) 
+	myobj.save("customSound.mp3")
+	
+#customSoundFile('Player died')
+	
+def checkInt(int_str):
+	try:
+		x = int(int_str)
+		return True
+	except:
+		return False
+		
+def playerCountDetect(flag):
+	while True:
+		playerCountDetectProcess()
+	
+def playerCountDetectProcess():
+	global RESULT_CACHE
+	im = pyautogui.screenshot(region=SCREENSHOT_REGION)
+	result = pytesseract.image_to_string(im)
+	if checkInt(result):
+		if RESULT_CACHE != '':
+			if result != RESULT_CACHE:
+				os.system("mpg321 customSound.mp3") 
+				RESULT_CACHE = result
+				print('updated result cache')
+		elif RESULT_CACHE == '':
+			RESULT_CACHE = result
+			print('first result cached')
+	else:
+		print('Result not a number')
 
 def createSoundFile(time_str):
 	text_str = time_str + " seconds until the circle moves"
@@ -168,6 +202,8 @@ def homeReset():
 	extra_btn.pack()
 	last_btn = Button(CANVAS, text='Set Region', command= lambda :setRegion(streamer.get()))
 	last_btn.pack()
+	one_more_btn = Button(CANVAS,text='Detect Count',command=lambda:playerCountDetect(streamer.get()))
+	one_more_btn.pack()
 	
 def clearCanvas():
 	global CANVAS
