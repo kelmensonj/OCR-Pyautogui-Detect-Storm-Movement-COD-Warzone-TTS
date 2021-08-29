@@ -10,6 +10,7 @@ pip3 install pyautogui
 pip3 install pynput
 ```
 From there, you can run the script from the terminal: 
+
 ![alt-text](https://github.com/kelmensonj/OCR-Pyautogui-Detect-Storm-Movement-COD-Warzone-TTs/blob/main/ocr_gif_1.gif)
 
 The following functions are available:
