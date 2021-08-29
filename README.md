@@ -9,7 +9,10 @@ pip3 install gTTs
 pip3 install pyautogui
 pip3 install pynput
 ```
-#From there, you can run the script from the terminal. A window will appear with several functions including:
+#From there, you can run the script from the terminal: 
+![alt-text](https://github.com/kelmensonj/OCR-Pyautogui-Detect-Storm-Movement-COD-Warzone-TTs/blob/main/ocrDetect.mkv)
+
+The following functions are available:
 * Setting an integer time warning - input 10 seconds and you will be warned with text to speech 10 seconds before the circle moves
 * Entering a Twitch streamer's name. Storm detector will then attempt to open that Twitch streamer's live stream
 * Checking coordinates of the mouse cursor
