@@ -16,3 +16,5 @@ pip3 install pynput
 * Setting the region of the screen for the storm detector to screenshot repeatedly, checking for the timer - set the region to a small box just around the storm timer on the left side of the screen and the storm detector will repeatedly screenshot that section and warn you when the timer is getting low
 * Hit 'Detect Storm' and the Storm Detector, given the proper coordinates, will warn you throughout the match of when the circle is going to move. 
 
+Note: This project combines selenium, pytesseract, as well as simulated inputs using pyautogui and pynput. I used this script to save my life in a video game by warning myself of when the poisonous gas was going to move (the game doesn't warn you - it only displays a clock), but this script could be easily modified to warn you of when your ammo is depleted, or if the current matrix you're looking is an identity matrix. 
+
